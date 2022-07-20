@@ -57,5 +57,14 @@ module.exports = {
             //process.stdout.write('\n prompt > ')
         })
      },
+
+     //Manejo del fs
+     cf: function(archivo, done) { //args es el nombre de archivo
+        fs.writeFile('./'+archivo, 'línea 1\nLínea 2', err => {
+            if(err) throw err;
+            process.stdout.write("archivo creado. \n");
+            process.stdout.write('\n prompt > ');  
+          })
+     }
 }
 
