@@ -164,25 +164,38 @@ function problemD () {
   var randIdx = Math.floor(Math.random() * filenames.length);
   filenames[randIdx] = 'wrong-file-name-' + (randIdx + 1) + '.txt';
 
-  // callback version
-  async.eachSeries(filenames,
-    function (filename, eachDone) {
-      readFile(filename, function (err, stanza) {
-        console.log('-- D. callback version --');
-        if (err) return eachDone(err);
-        blue(stanza);
-        eachDone();
-      });
-    },
-    function (err) {
-      if (err) magenta(new Error(err));
-      console.log('-- D. callback version done --');
-    }
-  );
+  // // callback version
+  // async.eachSeries(filenames,
+  //   function (filename, eachDone) {
+  //     readFile(filename, function (err, stanza) {
+  //       console.log('-- D. callback version --');
+  //       if (err) return eachDone(err);
+  //       blue(stanza);
+  //       eachDone();
+  //     });
+  //   },
+  //   function (err) {
+  //     if (err) magenta(new Error(err));
+  //     console.log('-- D. callback version done --');
+  //   }
+  // );
 
   // promise version
   // ???
-
+  filenames.reduce((p, file) => {
+    return p.then((stanza) => {
+     if (stanza) blue(stanza);
+     return promisifiedReadFile(file);
+    })
+ }, Promise.resolve(false))
+ .then((stanza) => {
+   blue(stanza);
+   console.log('done');
+})
+.catch((err) => {
+  magenta(new Error(err));
+  console.log('done');
+})
 }
 
 function problemE () {
@@ -194,6 +207,11 @@ function problemE () {
 
   var fs = require('fs');
   function promisifiedWriteFile (filename, str) {
-    // tu código aquí
-  }
+    return new Promise(function (resolve, reject) {
+    fs.writeFile(filename, str, err => {
+      if(err) return reject(err);
+      resolve('se escribió bien')
+    })
+  })
+}
 }
