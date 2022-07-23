@@ -96,7 +96,7 @@ describe('exercise two (involving poem two)', function () {
 
 	describe('problemC', function () {
 
-		xit('ignoring errors, logs all stanzas in the correct order, and a done message when all are complete', function (done) {
+		it('ignoring errors, logs all stanzas in the correct order, and a done message when all are complete', function (done) {
 			exercise.problemC();
 			setTimeout(function () {
 				stanzas.forEach(function (stanza, index) {
