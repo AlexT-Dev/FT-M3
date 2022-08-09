@@ -1,5 +1,6 @@
 var http = require('http');
 var fs   = require('fs');
+const { resolve } = require('path');
 
 var beatles=[{
   name: "John Lennon",
@@ -22,3 +23,14 @@ var beatles=[{
   profilePic:"http://cp91279.biography.com/BIO_Bio-Shorts_0_Ringo-Starr_SF_HD_768x432-16x9.jpg"
 }
 ]
+
+//Crear server
+
+http.createServer(function(req, res) {  // Request amd Response
+  //Toma el req para la api
+  if(req.url === '/api'){ // Si quiere ver todos los discos
+     res.writeHead(200,'Content-Type', 'application/json');  //Indica que tomará un arreglo y lo convertira a JSON
+     return res.end(JSON.stringify(beatles)); 
+  }
+  
+}).listen(3000,'127.0.0.1');    // listen (escucha) en el port 3000
